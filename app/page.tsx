@@ -17,7 +17,7 @@ const Editor = dynamic(loadEditor, { ssr: false, loading: () => null });
 function Boot({ done }: { done: boolean }) {
   return (
     <div className="m3e-boot" data-done={done ? "" : undefined} aria-busy={!done} aria-hidden={done}>
-      <LogoLoading size={48} color="#6750a4" />
+      <LogoLoading size={48} color="#3157d5" />
     </div>
   );
 }
@@ -35,13 +35,12 @@ function initialLanguage(): Lang {
 const BOOT_FADE_MS = 360;
 
 export default function Page() {
-  const [lang, setLang] = useState<Lang | null>(null);
+  const [lang] = useState<Lang | null>(() => (typeof window === "undefined" ? null : initialLanguage()));
   const [phase, setPhase] = useState<"loading" | "fading" | "done">("loading");
   useEffect(() => {
     const initialLang = initialLanguage();
     document.documentElement.lang = initialLang;
     setGlobalLang(initialLang);
-    setLang(initialLang);
   }, []);
   useEffect(() => {
     if (phase !== "fading") return;

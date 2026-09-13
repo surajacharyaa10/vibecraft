@@ -4,8 +4,7 @@ import { useEffect, useRef } from "react";
 import { LoadingAnimator, morphedShape, Point } from "@/lib/shapes";
 import { LOGO_GLYPH, LOGO_MARK } from "@/components/Logo";
 
-/** The logo's cookie is shape 1 of the loading sequence: start there so the mark
- *  in the static page turns into the indicator without a jump. */
+/** The VibeCraft mark starts the loading sequence without a visual jump. */
 const LOGO_SHAPE = 1;
 
 function pathOf(pts: Point[], scale: number): string {
@@ -16,8 +15,7 @@ function pathOf(pts: Point[], scale: number): string {
   return d + "Z";
 }
 
-/** The app mark as the M3 Expressive loading indicator: the cookie morphs through the
- *  shape sequence while the layers glyph stays still in its centre. Until the first
+/** The VibeCraft mark morphs through the expressive loading sequence while the V glyph stays still in its centre. Until the first
  *  animation frame it is the static logo itself, so the page and the mark line up. */
 export function LogoLoading({ size = 48, color, glyph = "#FFFFFF" }: { size?: number; color: string; glyph?: string }) {
   const pathRef = useRef<SVGPathElement>(null);
