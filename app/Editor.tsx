@@ -86,8 +86,8 @@ import { Preview } from "@/components/Preview";
 import { Logo } from "@/components/Logo";
 import { PartsPalette } from "@/components/PartsPalette";
 import { PromptPanel } from "@/components/PromptPanel";
-import { GitHubLink, Mode, Toolbar } from "@/components/Toolbar";
-import { LangMenu } from "@/components/Menus";
+import { Mode, Toolbar } from "@/components/Toolbar";
+// Language menu removed per request
 import { AiActionKey, AiPanel, aiErrorText } from "@/components/AiPanel";
 import { TidyState } from "@/components/ui";
 import { AiSettings, DEFAULT_AI, hasKey, isSecureUrl, loadAiSettings, proposeBehavior, proposeDescription, pushHistory, saveAiSettings } from "@/lib/ai";
@@ -101,7 +101,7 @@ import { ShareDialog } from "@/components/ShareMenu";
 import { ColorPanel } from "@/components/ColorPanel";
 import { MotionPanel, ShapePanel, TypePanel } from "@/components/ThemePanel";
 import { ThemeContext, ensureFontLoaded, ensureLangFontLoaded } from "@/lib/theme";
-import { BottomSheet, MobileActionBar, MobileInspector, MobileLang, MobileSettings } from "@/components/Mobile";
+import { BottomSheet, MobileActionBar, MobileInspector, MobileSettings } from "@/components/Mobile";
 import { ConfirmDialog, IconBtn, Segmented } from "@/components/ui";
 import { Lang, LangContext, SEED_TEXT, getLang, setGlobalLang, t, translateDefaultFrameName, translateDefaultText } from "@/lib/i18n";
 
@@ -3426,8 +3426,8 @@ export default function Editor({ initialLang, onReady }: { initialLang: Lang; on
                 </div>
               ))}
               <div style={{ flex: 1 }} onClick={() => !leftOpen && setLeftOpen(true)} />
-              <LangMenu p={p} onLang={changeLanguage} side="right" size={44} />
-              <GitHubLink p={p} size={44} />
+              {/* Language menu removed */}
+              {/* GitHub link removed */}
             </div>
             {leftOpen && (
             <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
@@ -3953,14 +3953,7 @@ export default function Editor({ initialLang, onReady }: { initialLang: Lang; on
             )}
             {isMobile && sheet === "lang" && (
               <BottomSheet key="lang" p={p} onClose={() => setSheet(null)}>
-                <MobileLang
-                  palette={p}
-                  lang={lang}
-                  onLang={(l) => {
-                    changeLanguage(l);
-                    setSheet(null);
-                  }}
-                />
+                {/* Mobile language selector removed */}
               </BottomSheet>
             )}
           </AnimatePresence>

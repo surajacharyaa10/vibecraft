@@ -4,7 +4,7 @@ import "./globals.css";
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_ORIGIN ?? "https://lnkiai.github.io"),
+
   title: "VibeCraft",
   applicationName: "VibeCraft",
   alternates: { canonical: `${BASE}/` },

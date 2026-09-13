@@ -340,39 +340,7 @@ export function MobileInspector({
 /** The language list, one row per language. */
 export function MobileLang({ palette: p, lang, onLang }: { palette: Palette; lang: Lang; onLang: (l: Lang) => void }) {
   return (
-    <Row icon="translate" label={t("language", lang)} p={p}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-        {LANGS.map((l) => {
-          const on = l.key === lang;
-          return (
-            <button
-              key={l.key}
-              onClick={() => onLang(l.key)}
-              aria-pressed={on}
-              className="m3-press"
-              style={{
-                height: 52,
-                padding: "0 16px 0 12px",
-                borderRadius: 16,
-                border: "none",
-                background: on ? p.secondaryContainer : p.surfaceContainerHigh,
-                color: on ? p.onSecondaryContainer : p.onSurface,
-                fontSize: 15,
-                fontWeight: 600,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                textAlign: "left",
-              }}
-            >
-              <span style={{ width: 22, display: "inline-flex" }}>{on && <Icon name="check" size={22} />}</span>
-              {l.label}
-            </button>
-          );
-        })}
-      </div>
-    </Row>
+      {/* Language selection removed per request */}
   );
 }
 
