@@ -449,6 +449,47 @@ export default function Editor({ initialLang, onReady }: { initialLang: Lang; on
   setGlobalShape(theme.shape);
 
   const canvasRef = useRef<HTMLDivElement>(null);
+
+  // State to hold vision model results
+  const [visionResults, setVisionResults] = useState<any[]>([]);
+
+  // Debounced auto-capture: capture UI and send to vision API when editor state changes
+  useEffect(() => {
+    // Dependencies that indicate a UI change
+    const deps = [groups, frames, paletteKey, theme];
+    // Set up debounce timer
+    const timer = setTimeout(() => {
+      if (!canvasRef.current) return;
+      // Capture canvas as PNG data URL
+      toPng(canvasRef.current)
+        .then((imageSource) => {
+          // Prepare request payload
+          const payload = {
+            imageSource,
+            userPrompt:
+              "Describe this UI design in detail as a single generation prompt: layout, components, colors, spacing, typography, and interactive elements. Write it so another AI could recreate this UI from the description alone.",
+          };
+          // Call the vision API endpoint (which runs all three models in parallel)
+          fetch("/api/vision", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data?.results) {
+                setVisionResults((prev) => [...prev, ...data.results]);
+                // Optionally show a toast or console message
+                console.log("Vision results received", data.results);
+              }
+            })
+            .catch((err) => console.error("Vision API error", err));
+        })
+        .catch((err) => console.error("Capture error", err));
+    }, 800); // 800 ms debounce after last change
+    // Cleanup on next effect run
+    return () => clearTimeout(timer);
+  }, [groups, frames, paletteKey, theme]);
   const measureEls = useRef<Map<string, HTMLElement>>(new Map());
   const dragRef = useRef<DragState | null>(null);
   const gestureRef = useRef<Gesture | null>(null);
