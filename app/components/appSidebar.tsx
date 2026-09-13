@@ -17,8 +17,10 @@ import {
   Layers3,
   Palette,
   Search,
+  SlidersHorizontal,
   Shapes,
   Square,
+  Sun,
   Type,
   Trash2,
   WandSparkles,
@@ -98,8 +100,20 @@ const groups = [
 
 const typefaces = ["Roboto", "Roboto Flex", "Roboto Serif", "System"]
 
+const colorPalettes = [
+  { name: "Purple", colors: ["#5533a5", "#d9cdf2", "#eee9f8", "#f7d9e2"] },
+  { name: "Blue", colors: ["#0756d6", "#b9d5ff", "#dbeaff", "#f0cfe2"] },
+  { name: "Green", colors: ["#087544", "#a9e5bd", "#d9f5df", "#f2d9c8"] },
+  { name: "Coral", colors: ["#9c2855", "#f3b8c8", "#f9d5df", "#f3d4c9"] },
+  { name: "Amber", colors: ["#9b4f05", "#f4c28f", "#f8e1b5", "#d9e3b7"] },
+  { name: "Teal", colors: ["#006d73", "#a8e5e6", "#cceff0", "#c8def0"] },
+  { name: "Mono", colors: ["#292532", "#c5bfce", "#e3dfe8", "#f5f3f7"] },
+]
+
 export function AppSidebar() {
   const [activeSection, setActiveSection] = useState("Parts")
+  const [selectedPalette, setSelectedPalette] = useState("Purple")
+  const [dynamicColor, setDynamicColor] = useState(false)
   const { screenCount, activeScreen, selectScreen, deleteScreen } = useScreens()
 
   return (
@@ -167,6 +181,28 @@ export function AppSidebar() {
                     ))}
                   </Accordion>
                 </SidebarGroupContent>
+              </SidebarGroup>
+            ) : activeSection === "Colors" ? (
+              <SidebarGroup className="px-2 py-3">
+                <div className="space-y-1">
+                  <button type="button" className="flex w-full items-center gap-2 rounded-xl bg-violet-100/70 px-2.5 py-2 text-left text-[11px] font-semibold text-violet-950 dark:text-violet-200"><Sun className="size-3.5" />Brightness<span className="ml-auto text-[10px] font-medium text-violet-700">Light <ChevronRight className="ml-1 inline size-3" /></span></button>
+                  <div className="flex items-center justify-between rounded-xl px-2.5 py-2 text-[11px] font-semibold text-violet-950 dark:text-violet-200"><span className="flex items-center gap-2"><CircleDot className="size-3.5" />Both</span><button type="button" aria-label="Toggle both colors" className="relative h-5 w-9 rounded-full bg-violet-300"><span className="absolute left-0.5 top-0.5 size-4 rounded-full bg-white shadow-sm" /></button></div>
+                  <button type="button" className="flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-[11px] font-semibold text-violet-950 hover:bg-violet-100/70 dark:text-violet-200"><SlidersHorizontal className="size-3.5" />Contrast<span className="ml-auto text-[10px] font-medium text-violet-700">Standard <ChevronRight className="ml-1 inline size-3" /></span></button>
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl bg-violet-100/70 p-1">
+                  <button type="button" className="rounded-lg bg-violet-900 px-2 py-2 text-[10px] font-semibold text-white">Palettes</button>
+                  <button type="button" className="rounded-lg px-2 py-2 text-[10px] font-medium text-muted-foreground hover:bg-white/70">Custom</button>
+                </div>
+                <div className="mt-2 space-y-1">
+                  {colorPalettes.map((palette) => (
+                    <button key={palette.name} type="button" onClick={() => setSelectedPalette(palette.name)} className={`flex w-full items-center gap-2 rounded-xl px-2 py-2 text-left transition-colors ${selectedPalette === palette.name ? "bg-violet-200/80 text-violet-950" : "text-violet-950/75 hover:bg-violet-100 dark:text-violet-200/75"}`}>
+                      <span className="size-5 rounded-full" style={{ background: `linear-gradient(135deg, ${palette.colors[0]} 50%, ${palette.colors[1]} 50%)` }} />
+                      <span className="w-14 text-[10px] font-semibold">{palette.name}</span>
+                      <span className="ml-auto flex gap-0.5">{palette.colors.map((color) => <span key={color} className="size-3.5 rounded-full border border-white/70" style={{ backgroundColor: color }} />)}</span>
+                    </button>
+                  ))}
+                </div>
+                <button type="button" onClick={() => setDynamicColor((current) => !current)} className="mt-3 flex w-full items-center gap-2 rounded-xl bg-violet-100/60 px-2.5 py-3 text-left text-violet-950/75 dark:bg-violet-950/30 dark:text-violet-200/75"><span className="flex size-6 items-center justify-center rounded-lg bg-violet-200"><CircleDot className="size-3.5" /></span><span className="flex-1"><span className="block text-[10px] font-semibold">Dynamic color</span><span className="block text-[9px]">Uses wallpaper colors</span></span><span className={`relative h-5 w-9 rounded-full transition-colors ${dynamicColor ? "bg-violet-700" : "bg-violet-300"}`}><span className={`absolute top-0.5 size-4 rounded-full bg-white shadow-sm transition-transform ${dynamicColor ? "translate-x-4" : "left-0.5"}`} /></span></button>
               </SidebarGroup>
             ) : activeSection === "Layers" ? (
               <SidebarGroup className="px-2 py-3">
