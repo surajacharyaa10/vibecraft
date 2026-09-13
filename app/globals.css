@@ -128,3 +128,18 @@
     @apply font-sans;
   }
 }
+
+.canvas-cursor-pan,
+.canvas-cursor-pan * {
+  cursor: grab !important;
+}
+
+.canvas-cursor-pan:active,
+.canvas-cursor-pan:active * {
+  cursor: grabbing !important;
+}
+
+.canvas-cursor-select,
+.canvas-cursor-select * {
+  cursor: default !important;
+}

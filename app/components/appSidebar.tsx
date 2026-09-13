@@ -7,6 +7,7 @@ import {
   CircleDot,
   Component,
   ChevronRight,
+  FileText,
 
   Grid2X2,
   LayoutGrid,
@@ -19,6 +20,7 @@ import {
   Shapes,
   Square,
   Type,
+  Trash2,
   WandSparkles,
   Sparkles,
 } from "lucide-react"
@@ -27,6 +29,7 @@ import { useState } from "react"
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Input } from "@/components/ui/input"
+import { useScreens } from "./screenContext"
 
 import {
   Sidebar,
@@ -97,6 +100,7 @@ const typefaces = ["Roboto", "Roboto Flex", "Roboto Serif", "System"]
 
 export function AppSidebar() {
   const [activeSection, setActiveSection] = useState("Parts")
+  const { screenCount, activeScreen, selectScreen, deleteScreen } = useScreens()
 
   return (
     <Sidebar collapsible="icon" className="w-[14rem] border-r-0 bg-[#fbf7ff] text-[#27232f]">
@@ -163,6 +167,26 @@ export function AppSidebar() {
                     ))}
                   </Accordion>
                 </SidebarGroupContent>
+              </SidebarGroup>
+            ) : activeSection === "Layers" ? (
+              <SidebarGroup className="px-2 py-3">
+                <p className="px-1 pb-3 text-[10px] font-semibold text-violet-950 dark:text-violet-200">Screens</p>
+                <div className="space-y-1">
+                  {Array.from({ length: screenCount }, (_, index) => {
+                    const number = index + 1
+                    const name = number === 1 ? "Home" : `Screen ${number}`
+                    const isActive = activeScreen === number
+                    return (
+                      <div key={number} className={`flex items-center rounded-xl border-l-2 transition-colors ${isActive ? "border-emerald-500 bg-violet-100/80" : "border-transparent hover:bg-violet-100/60"}`}>
+                        <button type="button" onClick={() => selectScreen(number)} className="flex min-w-0 flex-1 items-center gap-2 px-2.5 py-2 text-left text-[11px] font-medium text-violet-950 dark:text-violet-200">
+                          <FileText className="size-3.5 shrink-0 text-violet-700" />
+                          <span className="truncate">{name}</span>
+                        </button>
+                        <button type="button" aria-label={`Delete ${name}`} disabled={screenCount === 1} onClick={() => deleteScreen(number)} className="mr-1 rounded p-1 text-muted-foreground hover:bg-red-100 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-30"><Trash2 className="size-3" /></button>
+                      </div>
+                    )
+                  })}
+                </div>
               </SidebarGroup>
             ) : activeSection === "Types" ? (
               <SidebarGroup className="px-2 py-3">
